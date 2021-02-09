@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "elastic:import": "curl -H \"Content-Type: application/json\" -XPOST \"localhost:9200/mock/_bulk?pretty&refresh\" --data-binary \"@./src/mock/mock.json\"",
+    "elastic:import": "curl -H \"Content-Type: application/json\" -XPOST \"localhost:9200/mock/_bulk?pretty&refresh\" --data-binary \"@./src/mock/mock.json\""
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
