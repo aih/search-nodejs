@@ -19,8 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "elastick:import": "curl -H \"Content-Type: application/json\" -XPOST \"localhost:9200/mock/_bulk?pretty&refresh\" --data-binary \"@./src/mock/mock.json\"",
-    "elastick:delete": "curl --request DELETE \\ --url http://localhost:9200/{INDEX_NAME}"
+    "elastic:import": "curl -H \"Content-Type: application/json\" -XPOST \"localhost:9200/mock/_bulk?pretty&refresh\" --data-binary \"@./src/mock/mock.json\"",
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
@@ -29,6 +28,7 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/elasticsearch": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+    "elasticdump": "^6.65.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4"
