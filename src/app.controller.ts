@@ -22,9 +22,12 @@ export class AppController {
           multi_match: {
             query: text,
             fields: ['heading', 'text', 'xml'],
-          },
+          }
         },
-      },
+        highlight: {
+            "fields": { "text": {} }
+          }
+        },
     });
 
     return body.hits;
