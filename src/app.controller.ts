@@ -13,32 +13,34 @@ export class AppController {
   // https://wanago.io/2020/09/07/api-nestjs-elasticsearch/
 
   @Get('/search')
-  async search(@Query('q') text: string, @Query('_from') from: number) {
-    const { body } = await this.elasticService.search({
+  async search(@Query() params) {
+    const elQuery = {
       body: {
-        from: from || 0,
+        from: params.from || 0,
         size: 10,
         query: {
           multi_match: {
-            query: text,
-            fields: ['heading', 'text', 'xml'],
-          }
+            query: params.q,
+            fields: params.searchBy,
+          },
         },
         highlight: {
-            "fields": { "text": {} }
-          }
+          'fields': { 'text': {} },
         },
-    });
+      },
+    };
+
+    const { body } = await this.elasticService.search(elQuery);
 
     return body.hits;
   }
 
-/*  @Get('/delete')
-  async delete(@Query('index') index: string) {
-    await this.elasticService.indices.delete({
-      index,
-    });
-    return 'done';
-  }*/
+  /*  @Get('/delete')
+    async delete(@Query('index') index: string) {
+      await this.elasticService.indices.delete({
+        index,
+      });
+      return 'done';
+    }*/
 
 }
