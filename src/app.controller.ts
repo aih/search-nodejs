@@ -16,7 +16,7 @@ export class AppController {
   async search(@Query() params) {
     const elQuery = {
       body: {
-        from: params.from || 0,
+        from: params._from || 0,
         size: 10,
         query: {
           multi_match: {
