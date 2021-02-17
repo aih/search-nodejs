@@ -15,10 +15,8 @@ export class AppController {
   @Get('/search')
   async search(@Query() params) {
     let elQuery = {};
-    console.log(params);
 
     if(params.mode && params.mode.toLowerCase()=='querystring'){
-      console.log('querystring mode');
       elQuery = {
         index: params.index || 'uscsections',
         body: {
