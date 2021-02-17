@@ -15,6 +15,7 @@ export class AppController {
   @Get('/search')
   async search(@Query() params) {
     const elQuery = {
+      index: params.index || 'uscsections',
       body: {
         from: params._from || 0,
         size: 10,
