@@ -15,14 +15,17 @@ export class AppController {
   @Get('/search')
   async search(@Query() params) {
     let elQuery = {};
-    if(params.qs && params.qs.length>0){
+    console.log(params);
+
+    if(params.mode && params.mode.toLowerCase()=='querystring'){
+      console.log('querystring mode');
       elQuery = {
         index: params.index || 'uscsections',
         body: {
           size: 10,
           query: {
             query_string: {
-              query: params.qs,
+              query: params.q,
               default_field: "text",
             },
           },
