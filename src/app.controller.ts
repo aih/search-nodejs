@@ -8,23 +8,27 @@ export class AppController {
 
   }
 
+
   // https://coralogix.com/log-analytics-blog/42-elasticsearch-query-examples-hands-on-tutorial/
 
   // https://wanago.io/2020/09/07/api-nestjs-elasticsearch/
 
   @Get('/search')
   async search(@Query() params) {
+    const DEFAULT_FIELDS = ['text', 'title', 'number'];
+    const DEFAULT_FIELD = 'text';
+    const DEFAULT_INDEX ='uscsections'; 
     let elQuery = {};
 
     if(params.mode && params.mode.toLowerCase()=='querystring'){
       elQuery = {
-        index: params.index || 'uscsections',
+        index: params.index || DEFAULT_INDEX,
         body: {
           size: 10,
           query: {
             query_string: {
               query: params.q,
-              default_field: "text",
+              default_field: DEFAULT_FIELD,
             },
           },
           highlight: {
@@ -35,14 +39,14 @@ export class AppController {
 
     } else {
       elQuery = {
-        index: params.index || 'uscsections',
+        index: params.index || DEFAULT_INDEX,
         body: {
           from: params._from || 0,
           size: 10,
           query: {
             multi_match: {
               query: params.q,
-              fields: params.searchBy,
+              fields: params.searchBy || DEFAULT_FIELDS ,
             },
           },
           highlight: {
