@@ -14,22 +14,42 @@ export class AppController {
 
   @Get('/search')
   async search(@Query() params) {
-    const elQuery = {
-      index: params.index || 'uscsections',
-      body: {
-        from: params._from || 0,
-        size: 10,
-        query: {
-          multi_match: {
-            query: params.q,
-            fields: params.searchBy,
+    let elQuery = {};
+    if(params.qs && params.qs.length>0){
+      elQuery = {
+        index: params.index || 'uscsections',
+        body: {
+          size: 10,
+          query: {
+            query_string: {
+              query: params.qs,
+              default_field: "text",
+            },
+          },
+          highlight: {
+            'fields': { 'text': {} },
           },
         },
-        highlight: {
-          'fields': { 'text': {} },
+      };
+
+    } else {
+      elQuery = {
+        index: params.index || 'uscsections',
+        body: {
+          from: params._from || 0,
+          size: 10,
+          query: {
+            multi_match: {
+              query: params.q,
+              fields: params.searchBy,
+            },
+          },
+          highlight: {
+            'fields': { 'text': {} },
+          },
         },
-      },
-    };
+      };
+    }
 
     const { body } = await this.elasticService.search(elQuery);
 
